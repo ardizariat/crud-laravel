@@ -31,40 +31,36 @@ CRUD Laravel project
    });
    masukkan script diatas didalam function up()
 6. Setelah itu buka command line lalu jalankan script "php artisan migrate" untuk membuat table baru menggunakan script laravel
-7. Kemudian buka file database/seeders/CustomerSeeder, lalu copy paste script ini
+7. Kemudian buka file database/seeders/CustomerSeeder, lalu copy paste script ini :
+ <?php
+ 
+ namespace Database\Seeders;
+ 
+ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+ use Faker\Factory as Faker;
+ use Illuminate\Support\Str;
+ use Illuminate\Database\Seeder;
+ use Illuminate\Support\Facades\DB;
+ 
+ class CustomerSeeder extends Seeder
+ {
+     public function run()
+     {
+         $faker = Faker::create('id_ID');
+         for ($i = 0; $i < 100; $i++) { //100 adalah jumlah row yg akan dibuat
+             DB::table('customers')->insert([
+                 'name' => $faker->name,
+                 'nik' => $faker->randomNumber,
+                 'address' => $faker->address,
+                 'phone' => $faker->phoneNumber,
+                 'created_at' => now()->toDateTimeString()
+             ]);
+         }
+     }
+ }
 
-<?php
-
-namespace Database\Seeders;
-
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Faker\Factory as Faker;
-use Illuminate\Support\Str;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-
-class CustomerSeeder extends Seeder
-{
-    public function run()
-    {
-        $faker = Faker::create('id_ID');
-        for ($i = 0; $i < 100; $i++) { //100 adalah jumlah row yg akan dibuat
-            DB::table('customers')->insert([
-                'name' => $faker->name,
-                'nik' => $faker->randomNumber,
-                'address' => $faker->address,
-                'phone' => $faker->phoneNumber,
-                'created_at' => now()->toDateTimeString()
-            ]);
-        }
-    }
-}
-
-8. Kemudian bukan file database/seeders/DatabaseSeeder.php
-9. Didalam function run, copy paste script ini
-$this->call(CustomerSeeder::class);
-script diatas untuk memanggil class customer seeder untuk dijalankan
-10. Lalu buka command line, jalankan script "php artisan db:seed"
+8. Kemudian bukan file database/seeders/DatabaseSeeder.php.
+9. Didalam function run, copy paste script ini $this->call(CustomerSeeder::class); script tersebut untuk memanggil class customer seeder untuk dijalankan.
+10. Lalu buka command line, jalankan script "php artisan db:seed".
 11. Lalu cek database di table customers apakah data sudah bertambah atau belum.
-
-untuk dokumentasi data fake bisa dilihat di https://github.com/fzaninotto/Faker
+12. Untuk dokumentasi data fake bisa dilihat di https://github.com/fzaninotto/Faker
